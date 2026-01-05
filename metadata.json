@@ -1,0 +1,8 @@
+
+{
+  "name": "Paradise Spa & Salon",
+  "description": "A luxury unisex beauty salon and spa in Kharghar, Navi Mumbai, offering hair, skin, and wellness treatments.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
