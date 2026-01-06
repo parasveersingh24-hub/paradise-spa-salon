@@ -1,17 +1,17 @@
 
 import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { 
-  Home, 
-  Scissors, 
-  Sparkles, 
-  BookOpen, 
-  MessageSquare, 
-  Settings, 
-  User, 
-  Clock, 
-  MapPin, 
-  Phone, 
+import {
+  Home,
+  Scissors,
+  Sparkles,
+  BookOpen,
+  MessageSquare,
+  Settings,
+  User,
+  Clock,
+  MapPin,
+  Phone,
   Star,
   ChevronRight,
   Menu,
@@ -27,9 +27,19 @@ import Contact from './components/sections/Contact';
 import AdminDashboard from './components/admin/AdminDashboard';
 import BlogList from './components/sections/BlogList';
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-glass border-b border-pink-100 hidden md:block">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -85,7 +95,7 @@ const Footer = () => (
       <div className="col-span-1 md:col-span-2">
         <h2 className="text-2xl font-bold text-white mb-6 serif">PARADISE <span className="italic text-pink-400 font-light">Spa & Salon</span></h2>
         <p className="text-stone-400 max-w-md leading-relaxed">
-          Premium unisex beauty care and wellness services in the heart of Kharghar. 
+          Premium unisex beauty care and wellness services in the heart of Kharghar.
           Experience tranquility and expert grooming under one roof.
         </p>
       </div>
@@ -128,6 +138,7 @@ export default function App() {
 
   return (
     <Router>
+      <ScrollToTop />
       <div className="min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-grow md:pt-20">

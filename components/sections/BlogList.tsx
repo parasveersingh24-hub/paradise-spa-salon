@@ -9,6 +9,84 @@ interface Props {
   preview?: boolean;
 }
 
+const BlogCard = ({ blog, preview }: { blog: BlogPost; preview: boolean }) => {
+  const [isExpanded, setIsExpanded] = React.useState(false);
+
+  // If preview, render as a Link to the full blog page
+  if (preview) {
+    return (
+      <Link to="/blog" className="group block cursor-pointer outline-none">
+        <div className="relative h-[400px] overflow-hidden rounded-[2.5rem] mb-6 shadow-md group-hover:shadow-xl transition-shadow duration-500">
+          <img
+            src={blog.imageUrl}
+            alt={blog.title}
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-stone-900/70 via-stone-900/20 to-transparent"></div>
+          <div className="absolute bottom-8 left-8 right-8 space-y-3">
+            <div className="flex gap-4 text-white/80 text-xs font-medium uppercase tracking-widest">
+              <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {blog.date}</span>
+              <span className="flex items-center gap-1"><User className="w-3 h-3" /> {blog.author}</span>
+            </div>
+            <h4 className="text-2xl font-bold text-white group-hover:text-pink-300 transition-colors leading-snug">
+              {blog.title}
+            </h4>
+          </div>
+        </div>
+        <p className="text-stone-500 leading-relaxed font-light px-2 mb-4 line-clamp-2">
+          {blog.content}
+        </p>
+        <div className="px-2">
+          <span className="text-pink-600 font-bold text-sm uppercase tracking-widest flex items-center gap-2 group-hover:gap-4 transition-all group-hover:text-pink-700">
+            Read More <ChevronRight className="w-4 h-4" />
+          </span>
+        </div>
+      </Link>
+    );
+  }
+
+  // If in full view, render with expand/collapse functionality
+  return (
+    <div className="group block outline-none">
+      <div className="relative h-[400px] overflow-hidden rounded-[2.5rem] mb-6 shadow-md transition-shadow duration-500">
+        <img
+          src={blog.imageUrl}
+          alt={blog.title}
+          className="w-full h-full object-cover transition-transform duration-1000"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-stone-900/70 via-stone-900/20 to-transparent"></div>
+        <div className="absolute bottom-8 left-8 right-8 space-y-3">
+          <div className="flex gap-4 text-white/80 text-xs font-medium uppercase tracking-widest">
+            <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {blog.date}</span>
+            <span className="flex items-center gap-1"><User className="w-3 h-3" /> {blog.author}</span>
+          </div>
+          <h4 className="text-2xl font-bold text-white leading-snug">
+            {blog.title}
+          </h4>
+        </div>
+      </div>
+      <div className="px-2">
+        <p className={`text-stone-500 leading-relaxed font-light mb-4 transition-all duration-500 ${isExpanded ? '' : 'line-clamp-3'}`}>
+          {blog.content.split('\n').map((paragraph, idx) => (
+            <React.Fragment key={idx}>
+              {paragraph}
+              <br />
+            </React.Fragment>
+          ))}
+        </p>
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="text-pink-600 font-bold text-sm uppercase tracking-widest flex items-center gap-2 hover:gap-4 transition-all hover:text-pink-700"
+        >
+          {isExpanded ? 'Read Less' : 'Read More'} <ChevronRight className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-[-90deg]' : ''}`} />
+        </button>
+      </div>
+    </div>
+  );
+};
+
 const BlogList: React.FC<Props> = ({ blogs, preview = false }) => {
   return (
     <section className={`py-24 px-6 ${preview ? 'bg-stone-50' : 'bg-white'}`}>
@@ -27,34 +105,7 @@ const BlogList: React.FC<Props> = ({ blogs, preview = false }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {blogs.map((blog) => (
-            <Link to="/blog" key={blog.id} className="group block cursor-pointer outline-none">
-              <div className="relative h-[400px] overflow-hidden rounded-[2.5rem] mb-6 shadow-md group-hover:shadow-xl transition-shadow duration-500">
-                <img 
-                  src={blog.imageUrl} 
-                  alt={blog.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-stone-900/70 via-stone-900/20 to-transparent"></div>
-                <div className="absolute bottom-8 left-8 right-8 space-y-3">
-                  <div className="flex gap-4 text-white/80 text-xs font-medium uppercase tracking-widest">
-                    <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {blog.date}</span>
-                    <span className="flex items-center gap-1"><User className="w-3 h-3" /> {blog.author}</span>
-                  </div>
-                  <h4 className="text-2xl font-bold text-white group-hover:text-pink-300 transition-colors leading-snug">
-                    {blog.title}
-                  </h4>
-                </div>
-              </div>
-              <p className="text-stone-500 leading-relaxed font-light px-2 mb-4 line-clamp-2">
-                {blog.content}
-              </p>
-              <div className="px-2">
-                <span className="text-pink-600 font-bold text-sm uppercase tracking-widest flex items-center gap-2 group-hover:gap-4 transition-all group-hover:text-pink-700">
-                  Read More <ChevronRight className="w-4 h-4" />
-                </span>
-              </div>
-            </Link>
+            <BlogCard key={blog.id} blog={blog} preview={preview} />
           ))}
         </div>
       </div>
