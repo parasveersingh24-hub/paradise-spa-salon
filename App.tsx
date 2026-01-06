@@ -130,7 +130,7 @@ export default function App() {
     <Router>
       <div className="min-h-screen flex flex-col">
         <Navbar />
-        <main className="flex-grow pt-16 md:pt-20">
+        <main className="flex-grow md:pt-20">
           <Routes>
             <Route path="/" element={
               <>
