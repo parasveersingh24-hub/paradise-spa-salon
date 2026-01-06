@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import {
   Home,
   Scissors,
@@ -53,9 +53,7 @@ const Navbar = () => {
           <Link to="/blog" className="hover:text-pink-500 transition-colors">Blogs</Link>
           <Link to="/contact" className="hover:text-pink-500 transition-colors">Contact</Link>
         </div>
-        <Link to="/admin" className="p-2 bg-pink-50 rounded-full hover:bg-pink-100 transition-colors">
-          <Settings className="w-5 h-5 text-pink-500" />
-        </Link>
+
       </div>
     </nav>
   );
